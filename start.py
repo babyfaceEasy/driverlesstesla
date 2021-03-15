@@ -7,7 +7,7 @@ def index():
 
 @app.route("/profile")
 def profile():
-	return render_template("profile.thml")
+	return render_template("profile.html")
 
 @app.route("/login")
 def login():
