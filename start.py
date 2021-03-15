@@ -3,11 +3,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-	returnrender_template("index.html")
+	return render_template("index.html")
 
 @app.route("/profile")
 def profile():
-	render_template("profile.thml")
+	return render_template("profile.thml")
 
 @app.route("/login")
 def login():
