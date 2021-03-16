@@ -1,47 +1,26 @@
-from flask import Flask, render_template, redirect, url_for, request
-from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User
-from . import db
-app = Flask(__name__)
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-@app.route("/")
-def index():
-	return render_template("index.html")
+# init SQLAlchemy so we can use it later in our models
+db = SQLAlchemy()
 
-@app.route("/profile")
-def profile():
-	return render_template("profile.html")
+def create_app():
+    app = Flask(__name__)
 
-@app.route("/login")
-def login():
-	return render_template("login.html")
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presentation.sqlite'
 
-@app.route("/signup")
-def signup():
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
+    db.init_app(app)
 
-    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+    # blueprint for auth routes in our app
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
-    if user: # if a user is found, we want to redirect back to signup page so user can try again
-        flash('Email address already exists')
-        return redirect(url_for('auth.signup'))
-    
-    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    # blueprint for non-auth parts of app
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
-    # add the new user to the database
-    db.session.add(new_user)
-    db.session.commit()
-
-    return redirect(url_for('login')) 
-	#return render_template("signup.html")
-
-@app.route("/logout")
-def logout():
-	return 'work in progress'
+    return app
 
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0')
+	create_app().run(host='0.0.0.0')
