@@ -51,7 +51,7 @@ def new_index_post():
 
     db.session.add(new_participant)
     db.session.commit()
-    return redirect(url_for('new-welcome'))
+    return redirect(url_for('new_welcome'))
 
 @app.route("/new-welcome")
 def new_welcome():
