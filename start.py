@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin, LoginManager, login_required, current_user, logout_user
 
 # init SQLAlchemy so we can use it later in our models
 app = Flask(__name__)
@@ -32,8 +32,9 @@ def index():
 	return render_template("index.html")
 
 @app.route("/profile")
+@login_required
 def profile():
-	return render_template("profile.html")
+	return render_template("profile.html", name=current_user.name)
 
 @app.route("/login")
 def login():
@@ -44,8 +45,10 @@ def signup():
 	return render_template("signup.html")
 
 @app.route("/logout")
+@login_required
 def logout():
-	return 'work in progress'
+    logout_user()
+	return redirect(url_for('index'))
 
 @app.route('/signup', methods=['POST'])
 def signup_post():
