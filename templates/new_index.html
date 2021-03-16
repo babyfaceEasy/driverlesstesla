@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Tesla SSO - Sign In</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/symbol.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css2/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css2/main.css') }}">
+<!--===============================================================================================-->
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Leckerli+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+	<script src="{{ url_for('static', filename='js/uikit.js') }}"></script>
+</head>
+<body>
+	
+			
+
+	<div class="flex-w flex-str size1 overlay1 bg0">
+		<div class="flex-w flex-col-sb size1 bg0 p-l-20 p-t-15 p-b-10 p-r-20 respon1 sticky-header">
+			<div class="wrappiclogo">
+				<a href="https://www.tesla.com/">
+					<img src="{{ url_for('static', filename='images/icons/Logo.png') }}" alt="IMG">
+				</a>
+			</div>		
+	
+			<div class="w-full flex-c-m p-t-15">
+				<div class="wsize2 wsize1">
+					
+					<div class=" uk-padding uk-flex uk-flex-center" data-uk-height-viewport>
+						<div class="uk-width-3-4@s">
+						  
+						  <div class="uk-margin-medium-bottom">
+							<h1 class="uk-h1 uk-letter-spacing-small">Sign In</h1>
+						  </div>
+						      
+						  <form class="">
+							<div class="uk-width-1-1 uk-margin">
+							  <label style="display: inline-block;" class="uk-form-label" for="email">Email Address</label>
+							  <div style="display: inline-block; position: relative; top: 0;">
+							  <svg width="30px" height="30px"  class="tds-icon tds-icon--inline tds-icon-status-info" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" data-tds-tooltip-trigger="true" tabindex="0" role="img" aria-label="Open Email Address Tooltip">
+								<circle cx="15" cy="15" r="10" fill="#3E6AE1"></circle>
+								<circle fill="#FFF" cx="15" cy="10.75" r="1.25"></circle>
+								<line x1="15" y1="14.25" x2="15" y2="19.25" stroke="#FFF" stroke-width="2.15" stroke-linecap="round"></line>
+							  </svg>
+							</div>
+							  <input id="email" class="uk-input uk-form-large uk-border-pill" type="email">
+							</div>
+							<div class="uk-width-1-1 uk-margin">
+							  <label class="uk-form-label" for="password">Password</label>
+							  <input id="password" class="uk-input uk-form-large uk-border-pill" type="password">
+							</div>
+							<div class="uk-width-1-1 uk-text-center">
+							  <button class="uk-button uk-button-primary uk-button-large" formaction="welcome.html">SIGN IN</button>
+							</div>
+						  </form>
+						</div>
+					  </div>
+				</div>
+			</div>
+
+			
+			
+			
+		</div>
+			
+
+		
+	</div>
+
+
+
+	
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/tilt/tilt.jquery.min.js"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

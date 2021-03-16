@@ -20,6 +20,11 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
 
+class Participant(db.Model):
+    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -30,6 +35,10 @@ def load_user(user_id):
 @app.route("/")
 def index():
 	return render_template("index.html")
+
+@app.route("/new-index")
+def index():
+    return render_template("new_index.html");
 
 @app.route("/profile")
 @login_required
