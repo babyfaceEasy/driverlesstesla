@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 # init SQLAlchemy so we can use it later in our models
 app = Flask(__name__)
 db = SQLAlchemy(app)
+app.config['SECRET_KEY'] = 'pHd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presentation.sqlite'
 
 # models
@@ -45,7 +46,7 @@ def signup_post():
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')
-        return redirect(url_for('auth.signup'))
+        return redirect(url_for('signup'))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     # new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
