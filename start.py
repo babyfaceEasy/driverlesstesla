@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, LoginManager
 
 # init SQLAlchemy so we can use it later in our models
 app = Flask(__name__)
@@ -8,12 +9,22 @@ db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = 'pHd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presentation.sqlite'
 
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+#login_manager.init_app(app)
+
 # models
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    # since the user_id is just the primary key of our user table, use it in the query for the user
+    return User.query.get(int(user_id))
 
 # routes
 @app.route("/")
@@ -56,6 +67,23 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('login'))
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(email=email).first()
+
+    # check if the user actually exists
+    # take the user-supplied password, hash it, and compare it to the hashed password in the database
+    if not user or not check_password_hash(user.password, password):
+        flash('Please check your login details and try again.')
+        return redirect(url_for('login')) # if the user doesn't exist or password is wrong, reload the page
+
+    # if the above check passes, then we know the user has the right credentials
+    return redirect(url_for('profile'))
 
 # run application
 if __name__ == "__main__":
