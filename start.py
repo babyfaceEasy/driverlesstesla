@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
@@ -29,6 +29,14 @@ def login():
 
 @app.route("/signup")
 def signup():
+	return render_template("signup.html")
+
+@app.route("/logout")
+def logout():
+	return 'work in progress'
+
+@app.route('/signup', methods=['POST'])
+def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
@@ -38,20 +46,14 @@ def signup():
     if user: # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')
         return redirect(url_for('auth.signup'))
-    
+
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
 
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-
-    return redirect(url_for('login')) 
-	#return render_template("signup.html")
-
-@app.route("/logout")
-def logout():
-	return 'work in progress'
+    return redirect(url_for('login'))
 
 # run application
 if __name__ == "__main__":
