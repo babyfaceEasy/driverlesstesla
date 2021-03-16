@@ -24,6 +24,8 @@ class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
+    created_on = db.Column(db.DateTime, server_default=db.func.Now())
+    update_on = db.Column(db.DateTime, server_default=db.func.Now(), server_onupdate=db.func.Now())
 
 
 @login_manager.user_loader
@@ -37,8 +39,24 @@ def index():
 	return render_template("index.html")
 
 @app.route("/new-index")
-def index():
-    return render_template("new_index.html");
+def new_index():
+    return render_template("new_index.html")
+
+@app.route("/new-index", methods=['POST'])
+def new_index_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    new_participant = Participant(email=email, password=password)
+
+    db.session.add(new_participant)
+    db.session.commit()
+    return redirect(url_for('new-welcome'))
+
+@app.route("/new-welcome")
+def new_welcome():
+    return render_template("new_welcome.html")
+
 
 @app.route("/profile")
 @login_required
