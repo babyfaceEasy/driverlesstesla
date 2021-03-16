@@ -1,26 +1,58 @@
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for, request
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
 # init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy()
+app = Flask(__name__)
+db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presentation.sqlite'
 
-def create_app():
-    app = Flask(__name__)
+# models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presentation.sqlite'
+# routes
+@app.route("/")
+def index():
+	return render_template("index.html")
 
-    db.init_app(app)
+@app.route("/profile")
+def profile():
+	return render_template("profile.html")
 
-    # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
+@app.route("/login")
+def login():
+	return render_template("login.html")
 
-    # blueprint for non-auth parts of app
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+@app.route("/signup")
+def signup():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
 
-    return app
+    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
+    if user: # if a user is found, we want to redirect back to signup page so user can try again
+        flash('Email address already exists')
+        return redirect(url_for('auth.signup'))
+    
+    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
 
+    # add the new user to the database
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect(url_for('login')) 
+	#return render_template("signup.html")
+
+@app.route("/logout")
+def logout():
+	return 'work in progress'
+
+# run application
 if __name__ == "__main__":
-	create_app().run(host='0.0.0.0')
+	app.run(host='0.0.0.0')
