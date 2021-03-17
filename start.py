@@ -34,11 +34,11 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # routes
-@app.route("/")
+@app.route("/old-index")
 def index():
 	return render_template("index.html")
 
-@app.route("/new-index")
+@app.route("/")
 def new_index():
     return render_template("new_index.html")
 
