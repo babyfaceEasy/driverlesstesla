@@ -68,6 +68,7 @@ def login():
 	return render_template("login.html")
 
 @app.route("/signup")
+@login_required
 def signup():
 	return render_template("signup.html")
 
@@ -96,7 +97,7 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-    return redirect(url_for('login'))
+    return redirect(url_for('profile'))
 
 @app.route('/login', methods=['POST'])
 def login_post():
