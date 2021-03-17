@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_required, current_user, logout_user
+from flask_login import UserMixin, LoginManager, login_required, current_user, logout_user, login_user
 
 # init SQLAlchemy so we can use it later in our models
 app = Flask(__name__)
@@ -115,6 +115,7 @@ def login_post():
         return redirect(url_for('login')) # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
+    login_user(user, remember=remember)
     return redirect(url_for('profile'))
 
 # run application
