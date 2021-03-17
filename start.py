@@ -36,7 +36,7 @@ def load_user(user_id):
 # routes
 @app.route("/old-index")
 def index():
-	return render_template("new_index.html")
+    return render_template("new_index.html")
 
 @app.route("/")
 def new_index():
@@ -62,16 +62,16 @@ def new_welcome():
 @login_required
 def profile():
     participants = Participant.query.all()
-	return render_template("profile.html", name=current_user.name, participants=participants)
+    return render_template("profile.html", name=current_user.name, participants=participants)
 
 @app.route("/login")
 def login():
-	return render_template("login.html")
+    return render_template("login.html")
 
 @app.route("/signup")
 @login_required
 def signup():
-	return render_template("signup.html")
+    return render_template("signup.html")
 
 @app.route("/logout")
 @login_required
