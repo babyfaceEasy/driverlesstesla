@@ -324,7 +324,7 @@ h6, .uk-h6,
 .uk-heading-large,
 .uk-heading-xlarge,
 .uk-heading-2xlarge {
-  margin: 0 0 20px 0;
+  margin: 0;
   font-family: "Montserrat", san-serif;
   font-weight: 600;
   color: #171a20;
@@ -7039,6 +7039,11 @@ ul.uk-nav-sub {
  * Pixel
  * Useful for `overflow: auto`
  */
+
+ .uk-height-auto {
+  height: auto;
+}
+
 .uk-height-small {
   height: 150px;
 }
@@ -8196,6 +8201,10 @@ iframe.uk-cover {
   background-color: #555;
 }
 
+.uk-background-overlay2 {
+  background-color: #3e6ae1;
+}
+
 .uk-border-rounded-medium {
   border-radius: 10px;
 }
@@ -8963,13 +8972,13 @@ iframe.uk-cover {
 /* Large
  ========================================================================== */
 .uk-padding-large {
-  padding: 30px;
+  padding: 70px 20px;
 }
 
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-padding-large {
-    padding: 70px;
+    padding: 100px 70px;
   }
 }
 
